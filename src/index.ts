@@ -41,6 +41,7 @@ export interface WalkerConnectUrlInput {
   partnerName?: string;
   redirectUri?: string;
   scopes?: WalkerScope[];
+  baseUrl?: string;
   scheme?: string;
 }
 
@@ -259,8 +260,9 @@ export class WalkerClient {
 export const Walker = WalkerClient;
 
 export function createWalkerConnectUrl(input: WalkerConnectUrlInput): string {
-  const scheme = input.scheme ?? "walker";
-  const url = new URL(`${scheme}://connect`);
+  const url = input.baseUrl
+    ? new URL("/connect", `${normalizeBaseUrl(input.baseUrl)}/`)
+    : new URL(`${input.scheme ?? "walker"}://connect`);
   url.searchParams.set("client_id", input.clientId);
   url.searchParams.set("external_user_id", input.externalUserId);
   if (input.partnerName) {

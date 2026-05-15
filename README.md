@@ -71,6 +71,21 @@ const url = createWalkerConnectUrl({
 window.location.href = url;
 ```
 
+For cross-platform web authorization, generate a hosted Walker connect URL instead:
+
+```ts
+const url = createWalkerConnectUrl({
+  baseUrl: "https://walker-xl5k.onrender.com",
+  clientId: "wpk_partner_client_id",
+  externalUserId: "web-user-123",
+  partnerName: "Demo Web App",
+  redirectUri: "https://demo.example.com/walker/callback",
+  scopes: ["wallet:read", "wallet:spend"]
+});
+
+window.location.href = url;
+```
+
 Walker opens `redirectUri` with these query parameters after approval:
 
 ```text
