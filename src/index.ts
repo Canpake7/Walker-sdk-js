@@ -24,6 +24,7 @@ export interface PartnerApp {
   name: string;
   clientId: string;
   clientSecret: string;
+  status: string;
   allowedRedirectUrls: string[];
   createdAt: string;
 }
@@ -286,6 +287,7 @@ interface RawPartnerApp {
   name: string;
   client_id: string;
   client_secret: string;
+  status: string;
   allowed_redirect_urls: string[];
   created_at: string;
 }
@@ -344,6 +346,7 @@ function mapPartnerApp(raw: RawPartnerApp): PartnerApp {
     name: raw.name,
     clientId: raw.client_id,
     clientSecret: raw.client_secret,
+    status: raw.status,
     allowedRedirectUrls: raw.allowed_redirect_urls,
     createdAt: raw.created_at,
   };
