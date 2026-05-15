@@ -35,6 +35,15 @@ export interface ConnectPartnerUserInput {
   playerAuth: WalkerPlayerAuth;
 }
 
+export interface WalkerConnectUrlInput {
+  clientId: string;
+  externalUserId: string;
+  partnerName?: string;
+  redirectUri?: string;
+  scopes?: WalkerScope[];
+  scheme?: string;
+}
+
 export interface PartnerConnection {
   id: string;
   partnerAppId: string;
@@ -160,6 +169,10 @@ export class WalkerClient {
     return mapPartnerConnection(raw);
   }
 
+  createConnectUrl(input: WalkerConnectUrlInput): string {
+    return createWalkerConnectUrl(input);
+  }
+
   async getBalance(input: GetBalanceInput = {}): Promise<WalletBalance> {
     const raw = await this.request<RawWalletBalance>("/v1/partner/wallet/balance", {
       headers: this.connectionAuthHeaders(input.connectionToken),
@@ -244,6 +257,21 @@ export class WalkerClient {
 }
 
 export const Walker = WalkerClient;
+
+export function createWalkerConnectUrl(input: WalkerConnectUrlInput): string {
+  const scheme = input.scheme ?? "walker";
+  const url = new URL(`${scheme}://connect`);
+  url.searchParams.set("client_id", input.clientId);
+  url.searchParams.set("external_user_id", input.externalUserId);
+  if (input.partnerName) {
+    url.searchParams.set("partner_name", input.partnerName);
+  }
+  if (input.redirectUri) {
+    url.searchParams.set("redirect_uri", input.redirectUri);
+  }
+  url.searchParams.set("scopes", (input.scopes ?? ["wallet:read", "wallet:spend"]).join(","));
+  return url.toString();
+}
 
 interface RequestOptions {
   method?: "GET" | "POST" | "DELETE" | "PATCH" | "PUT";

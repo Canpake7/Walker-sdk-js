@@ -53,6 +53,33 @@ const spend = await walker.spendCredits({
 console.log(spend.creditBalance, spend.idempotentReplay);
 ```
 
+## Open Walker App Authorization
+
+Partner apps can send users into the Walker iOS app to approve a wallet connection.
+
+```ts
+import { createWalkerConnectUrl } from "@walker/walker-sdk-js";
+
+const url = createWalkerConnectUrl({
+  clientId: "wpk_partner_client_id",
+  externalUserId: "web-user-123",
+  partnerName: "Demo Web App",
+  redirectUri: "demoapp://walker/callback",
+  scopes: ["wallet:read", "wallet:spend"]
+});
+
+window.location.href = url;
+```
+
+Walker opens `redirectUri` with these query parameters after approval:
+
+```text
+walker_connection_token
+walker_connection_id
+external_user_id
+scopes
+```
+
 ## Development Auth
 
 While the Walker API is running with `DEV_AUTH_ENABLED=true`, connect a player using the development headers:
