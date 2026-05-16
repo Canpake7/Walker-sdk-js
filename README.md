@@ -7,10 +7,10 @@ Walker is designed around a trusted Walker mobile app that accumulates steps and
 ## Install
 
 ```bash
-npm install @walker/walker-sdk-js
+npm install git+https://github.com/Canpake7/Walker-sdk-js.git
 ```
 
-For local development before publishing:
+The SDK is currently distributed from GitHub, not npm. For local SDK development:
 
 ```bash
 npm install
@@ -110,9 +110,23 @@ const connection = await walker.connectPartnerUser({
 });
 ```
 
-## Enroll A Partner App
+## Partner App Setup
 
-The current Walker API MVP exposes app enrollment as an API endpoint. Later this should likely move behind a protected dashboard.
+Partner apps are created in the protected Walker admin dashboard. There is no partner self-serve app creation yet.
+
+Walker admin gives you:
+
+- partner client ID
+- registered redirect URLs
+- demo environment variables
+- SDK install command
+- client secret, shown only once at creation or rotation time
+
+Browser apps use the client ID only. Keep the client secret server-side; it is reserved for future server-to-server APIs.
+
+Redirect URLs are exact matches. The URL sent to hosted `/connect` must match the registered URL byte-for-byte apart from normal URL encoding.
+
+Local development may still call `enrollPartnerApp` only when the Walker API is configured with public partner enrollment enabled:
 
 ```ts
 const partnerApp = await walker.enrollPartnerApp({
