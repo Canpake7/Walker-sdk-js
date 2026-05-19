@@ -19,7 +19,11 @@ Partner apps use this SDK to:
 - list wallet transactions
 - spend credits with idempotency
 
-The SDK must never submit steps. The official Walker app remains the trusted activity producer.
+The SDK must never submit steps or activity events. The official Walker iOS app remains the trusted activity producer.
+
+The API deliberately exposes chunk credit deduction only. Partners use the SDK to read balances, list transactions, and spend explicit credit amounts. Time-based or product-specific spending rules should be implemented inside the partner app or Walker iOS client before calling `spendCredits`.
+
+Wallet transaction history is the canonical source for partner-facing movement. Do not infer spending from activity events or balance-history summaries in SDK features.
 
 ## API Defaults
 
@@ -73,3 +77,11 @@ npm run build
 ```
 
 The package builds ESM, CJS, and type declarations into `dist/`.
+
+## Current Distribution Status
+
+Keep the SDK GitHub-installed for now. It is not published to npm yet, and partners should install it with:
+
+```bash
+npm install git+https://github.com/Canpake7/Walker-sdk-js.git
+```
