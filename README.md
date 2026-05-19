@@ -2,7 +2,7 @@
 
 JavaScript/TypeScript SDK for partner apps integrating with the Walker Wallet API.
 
-Walker is designed around a trusted Walker mobile app that accumulates steps and syncs them to the Walker API. Partner apps use this SDK to connect an existing Walker player to their own user, read the connected wallet balance, list transactions, and spend credits.
+Walker is designed around a trusted Walker mobile app that accumulates steps, syncs them to the Walker API, and can use credits for local Screen Time access metering. Partner apps use this SDK to connect an existing Walker player to their own user, read the connected wallet balance, list transactions, and spend credits.
 
 The Walker API exposes chunk credit deduction only. Partner apps own their local rules for when and why to deduct credits, then call `spendCredits` with the final amount.
 
@@ -179,6 +179,7 @@ try {
 ## Notes For Partner Apps
 
 - Do not collect or submit steps from this SDK. The official Walker mobile app remains the trusted step producer.
+- Do not implement Walker's Screen Time allowance rules in partner apps. The official iOS app owns local blocking/unblocking; partners should only spend explicit credit amounts for their own features.
 - Always provide an `idempotencyKey` for spend calls. Reusing the same key for the same spend will return the existing transaction instead of double-spending.
 - For production web apps, store the connection token carefully. It authorizes reads and spends for the connected Walker wallet according to the granted scopes.
 - The SDK is currently GitHub-installed and not published to npm.
