@@ -5,7 +5,7 @@ Walker-sdk-js is the JavaScript/TypeScript SDK for partner apps integrating with
 ## Related Repositories
 
 - `Walker`: FastAPI/Postgres backend and source of truth for wallet data
-- `Walker-ios`: official iOS app that records HealthKit activity and can approve partner connections
+- `Walker-ios`: official iOS app that records HealthKit activity, manages local Screen Time access metering, and can approve partner connections
 - `Walker-partner-demo`: small web app that consumes this SDK to test the partner flow
 
 ## Purpose
@@ -19,7 +19,7 @@ Partner apps use this SDK to:
 - list wallet transactions
 - spend credits with idempotency
 
-The SDK must never submit steps or activity events. The official Walker iOS app remains the trusted activity producer.
+The SDK must never submit steps or activity events. The official Walker iOS app remains the trusted activity producer and owns local Screen Time allowance/blocking behavior.
 
 The API deliberately exposes chunk credit deduction only. Partners use the SDK to read balances, list transactions, and spend explicit credit amounts. Time-based or product-specific spending rules should be implemented inside the partner app or Walker iOS client before calling `spendCredits`.
 
